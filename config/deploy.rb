@@ -8,7 +8,7 @@ set :repo_url, "git@github.com:nabu-catalog/nabu"
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, -> { "/srv/www/#{fetch :application}" }
+set :deploy_to, -> { "/home/ubuntu/#{fetch :application}" }
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -41,38 +41,11 @@ set :deploy_to, -> { "/srv/www/#{fetch :application}" }
 # Ruby
 set :rbenv_ruby, '3.1.3'
 
-# puma
-set :puma_systemctl_user, fetch(:user)
-set :puma_enable_socket_service, true
-set :puma_bind, "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
-
 # Rails
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'tmp/locks'
 
 # dotenv
 append :linked_files, '.env'
-
-namespace :sunspot do
-  task :reindex do
-    on roles(:app) do
-      within release_path do
-        execute :pwd
-        execute :bundle, :exec, :rake, 'sunspot:reindex', "RAILS_ENV=#{fetch :rails_env}"
-      end
-    end
-  end
-end
-
-namespace :viewer do
-  desc 'Create a symlink to the viewer'
-  task :create_symlink do
-    on roles(:app) do
-      execute "ln -s /srv/www/viewer/current #{release_path}/public/viewer"
-    end
-  end
-end
-
-after 'deploy:publishing', 'viewer:create_symlink'
 
 # Sentry
 set :sentry_api_token, ENV['SENTRY_API_TOKEN']

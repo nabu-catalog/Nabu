@@ -2,7 +2,7 @@
 
 git push
 git co production
-git merge --ff-only main
+git merge --ff-only legacy-ingest
 git push
-git co main
+git co legacy-ingest
 nabu_run bundle exec cap production deploy
