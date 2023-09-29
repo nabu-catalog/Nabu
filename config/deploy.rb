@@ -51,3 +51,9 @@ append :linked_files, '.env'
 set :sentry_api_token, ENV['SENTRY_API_TOKEN']
 set :sentry_organization, 'nabu-d0'
 set :sentry_project, 'nabu'
+
+require 'net/ssh/proxy/command'
+set :ssh_options,
+    forward_agent: true,
+    auth_methods: %w[publickey],
+    proxy: Net::SSH::Proxy::Command::new("aws ssm start-session --target i-0f6e289f2b8c5ead5 --document-name AWS-StartSSHSession --parameters 'portNumber=22'")
