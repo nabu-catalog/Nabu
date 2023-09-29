@@ -1,4 +1,4 @@
-server "syd-paradisec-prod.intersect.org.au", user: "deploy", roles: %w{app db web}
+server 'i-0f6e289f2b8c5ead5', user: 'ubuntu', roles: %w{app}
 
 set :branch, 'production'
 

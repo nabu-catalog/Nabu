@@ -22,36 +22,22 @@
 job_type :nabu_rake,  "cd :path && if [ ! -f tmp/pids/disable_cron ]; then :environment_variable=:environment flock --nonblock tmp/locks/:lock.lock :bundle_command rake :task --silent :output; fi"
 job_type :nabu,  "cd :path && :environment_variable=:environment :bundle_command :task"
 
-every 1.day, :at => '12:00 am' do
-  nabu_rake "archive:export_metadata VERBOSE=true", lock: 'archive_export_metadata'
-end
-
-every 1.hour do
-  nabu_rake "archive:import_files VERBOSE=true", lock: 'archive_import_files'
-end
-
-# TODO: We really shouldn't need this, commenting out for now
-# every 1.hour do
-#   nabu_rake "sunspot:reindex", lock: 'sunsport_reindex', output: { error: 'log/reindex.error.log' }
+# every 1.day, :at => '12:00 am' do
+#   nabu_rake "archive:export_metadata VERBOSE=true", lock: 'archive_export_metadata'
 # end
 
-every 1.day, :at => '2:00 am' do
-  nabu_rake "archive:mint_dois MINT_DOIS_BATCH_SIZE=500", lock: 'archive_mint_dois', output: 'log/doi_minting.log'
-end
+# every 1.hour do
+#   nabu_rake "archive:import_files VERBOSE=true", lock: 'archive_import_files'
+# end
 
-every 1.day, :at => '12:04 am' do
-  nabu_rake "archive:transform_images IMAGE_TRANSFORMER_BATCH_SIZE=2500", lock: 'archive_transform_images'
-end
+# every 1.day, :at => '2:00 am' do
+#   nabu_rake "archive:mint_dois MINT_DOIS_BATCH_SIZE=500", lock: 'archive_mint_dois', output: 'log/doi_minting.log'
+# end
 
-every 1.day, :at => '2:30 am' do
-  nabu_rake "data:check_all_checksums", lock: 'data_check_all_checksums'
-end
+# every 1.day, :at => '12:04 am' do
+#   nabu_rake "archive:transform_images IMAGE_TRANSFORMER_BATCH_SIZE=2500", lock: 'archive_transform_images'
+# end
 
-every :reboot do
- nabu "bin/delayed_job -n 5 start"
-end
-
-# jonog - perform daily database backups of the database and archive weekly backups for the rest of the month
-#every 1.day, :at => '12:05 am' do
-  # 0 5 * * * /home/deploy/scripts/backup-mysql.rb > /home/deploy/logging/backup-`date +\%F`.log
-#end
+# every 1.day, :at => '2:30 am' do
+#   nabu_rake "data:check_all_checksums", lock: 'data_check_all_checksums'
+# end
