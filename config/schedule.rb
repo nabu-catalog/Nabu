@@ -22,21 +22,21 @@
 job_type :nabu_rake,  "cd :path && if [ ! -f tmp/pids/disable_cron ]; then :environment_variable=:environment flock --nonblock tmp/locks/:lock.lock :bundle_command rake :task --silent :output; fi"
 job_type :nabu,  "cd :path && :environment_variable=:environment :bundle_command :task"
 
-# every 1.day, :at => '12:00 am' do
-#   nabu_rake "archive:export_metadata VERBOSE=true", lock: 'archive_export_metadata'
-# end
+every 1.day, :at => '12:00 am' do
+  nabu_rake "archive:export_metadata VERBOSE=true", lock: 'archive_export_metadata'
+end
 
-# every 1.hour do
-#   nabu_rake "archive:import_files VERBOSE=true", lock: 'archive_import_files'
-# end
+every 1.hour do
+  nabu_rake "archive:import_files VERBOSE=true", lock: 'archive_import_files'
+end
 
 # every 1.day, :at => '2:00 am' do
 #   nabu_rake "archive:mint_dois MINT_DOIS_BATCH_SIZE=500", lock: 'archive_mint_dois', output: 'log/doi_minting.log'
 # end
 
-# every 1.day, :at => '12:04 am' do
-#   nabu_rake "archive:transform_images IMAGE_TRANSFORMER_BATCH_SIZE=2500", lock: 'archive_transform_images'
-# end
+every 1.day, :at => '12:04 am' do
+  nabu_rake "archive:transform_images IMAGE_TRANSFORMER_BATCH_SIZE=2500", lock: 'archive_transform_images'
+end
 
 # every 1.day, :at => '2:30 am' do
 #   nabu_rake "data:check_all_checksums", lock: 'data_check_all_checksums'
