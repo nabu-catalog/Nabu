@@ -1,4 +1,4 @@
-server 'i-0f6e289f2b8c5ead5', user: 'ubuntu', roles: %w{app}
+server 'i-0f6e289f2b8c5ead5', user: 'deploy', roles: %w{app}
 
 set :branch, 'production'
 
