@@ -102,10 +102,10 @@ Rails.application.configure do
   # --- OVERWRITE FOR PRODUCTION
   config.archive_directory = "/srv/catalog/"
   config.upload_directories = [
-    "/mnt/azoulay/toNabu",
+    "/mnt/azoulay/toNabu/",
   ]
 
-  config.scan_directory = '/mnt/azoulay/forDobbin'
-  config.write_id3 = '/mnt/azoulay/id3'
-  config.write_imp = '/mnt/azoulay/xml'
+  config.scan_directory = '/mnt/azoulay/forDobbin/'
+  config.write_id3 = '/mnt/azoulay/id3/'
+  config.write_imp = '/mnt/azoulay/xml/'
 end
