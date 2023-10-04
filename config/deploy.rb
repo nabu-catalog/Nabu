@@ -52,6 +52,8 @@ set :sentry_api_token, ENV['SENTRY_API_TOKEN']
 set :sentry_organization, 'nabu-d0'
 set :sentry_project, 'nabu'
 
+set :whenever_roles, [:app]
+
 require 'net/ssh/proxy/command'
 set :ssh_options,
     forward_agent: true,
