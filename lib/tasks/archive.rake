@@ -250,6 +250,8 @@ namespace :archive do
             if dry_run
               puts "DRY_RUN: file #{file} would be copied into archive at #{destination_path}"
             else
+              FileUtils.rm_f(destination_path + file)
+
               FileUtils.cp(upload_directory + file, destination_path + file)
             end
           rescue
